@@ -1,35 +1,54 @@
+// Advent of Code 2022
+// Day 1: Calorie Counting
+// https://adventofcode.com/2022/day/1
+
+#include <algorithm>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <string>
-using namespace std;
 
 int main(int argc, char *argv[]) {
-  string line;
-  ifstream myfile(argv[1]);
+
+  if (argc != 2) {
+    return EXIT_FAILURE;
+  }
+
+  std::string line;
+  std::ifstream myfile(argv[1]);
 
   (void)argc;
 
   if (myfile.is_open()) {
     int acc = 0;
-    int max = 0;
+    int max1 = 0;
+    int max2 = 0;
+    int max3 = 0;
     while (getline(myfile, line)) {
-      if (line == "") {
-        if (acc > max) {
-          max = acc;
+      if (line.empty()) {
+        if (acc > max1) {
+          max3 = max2;
+          max2 = max1;
+          max1 = acc;
+        } else if (acc > max2) {
+          max3 = max2;
+          max2 = acc;
+        } else if (acc > max3) {
+          max3 = acc;
         }
         acc = 0;
       } else {
-        int val = stoi(line);
-        acc = acc + val;
+        acc += std::stoull(line);
       }
     }
-    cout << max;
+    std::cout << "PART 1: " << max1 << std::endl;
+    std::cout << "PART 2: " << max1 + max2 + max3 << std::endl;
     myfile.close();
   } else
     goto failure;
   return 0;
 failure:
   myfile.close();
-  cout << "Unable to open file";
+  std::cout << "Unable to open file";
   return 1;
 }
