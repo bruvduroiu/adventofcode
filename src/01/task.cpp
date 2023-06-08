@@ -17,8 +17,6 @@ int main(int argc, char *argv[]) {
   std::string line;
   std::ifstream myfile(argv[1]);
 
-  (void)argc;
-
   if (myfile.is_open()) {
     int acc = 0;
     int max1 = 0;
